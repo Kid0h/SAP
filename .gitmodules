@@ -1,0 +1,6 @@
+[submodule "vendor/fmt"]
+	path = vendor/fmt
+	url = https://github.com/fmtlib/fmt.git
+[submodule "vendor/ffmpeg"]
+	path = vendor/ffmpeg
+	url = https://github.com/FFmpeg/FFmpeg.git
