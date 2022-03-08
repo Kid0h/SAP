@@ -13,6 +13,10 @@ extern "C" {
     #include <libavutil/audio_fifo.h>
 }
 
+#ifdef SAP_DEBUG
+#undef MA_DEBUG_OUTPUT
+#endif
+
 #define MINIAUDIO_IMPLEMENTATION
 #include <miniaudio.h>
 
