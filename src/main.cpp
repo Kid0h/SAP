@@ -1,19 +1,25 @@
 #include <iostream>
+#include <string.h>
 #include <thread>
 
 #include <fmt/core.h>
 #include <fmt/color.h>
 
 extern "C" {
-    #include <libavformat/avformat.h>
-    #include <libavcodec/avcodec.h>
     #include <libavutil/avutil.h>
+    #include <libavcodec/avcodec.h>
+    #include <libavformat/avformat.h>
     #include <libswresample/swresample.h>
     #include <libavutil/audio_fifo.h>
 }
 
 #define MINIAUDIO_IMPLEMENTATION
 #include <miniaudio.h>
+
+#ifdef WIN32 // Enable console colors on Windows
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#endif
 
 #define LOG_LOG fmt::print(fg(fmt::color::green),   "LOG: ")
 #define LOG_INF fmt::print(fg(fmt::color::blue),    "INFO: ")
@@ -31,8 +37,6 @@ int main(int argc, char* argv[]) {
     logging = false;
 
     #ifdef WIN32 // Enable console colors on Windows
-    #define WIN32_LEAN_AND_MEAN
-    #include <Windows.h>
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     DWORD dwMode = 0;
     GetConsoleMode(hOut, &dwMode);
@@ -55,7 +59,7 @@ int main(int argc, char* argv[]) {
     }
     for (int i = 1; i < argc; ++i) {
         // Logging 
-        if (strcmpi(argv[i], "--log") == 0 || strcmpi(argv[i], "-l") == 0) {
+        if (strcmp(argv[i], "--log") == 0 || strcmp(argv[i], "-l") == 0) {
             logging = true;
         }
     } file_path = argv[1];

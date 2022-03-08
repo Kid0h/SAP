@@ -29,16 +29,23 @@ add_executable(SAP ${SOURCES})
 # FMT
 add_subdirectory("vendor/fmt")
 
-# libav
-set(LIBAV_INCLUDE_DIR "vendor/ffmpeg/build/include")
-set(LIBAV_LIBRARY_DIR "vendor/ffmpeg/build/lib")
+# ffmpeg
+set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_CURRENT_SOURCE_DIR}")
+find_package(FFmpeg COMPONENTS AVUTIL AVCODEC AVFORMAT SWRESAMPLE REQUIRED)
+# Extra definitions
+if (WIN32)
+target_link_libraries(SAP PRIVATE mfplat.lib mfuuid.lib ole32.lib strmiids.lib bcrypt.lib ole32.lib user32.lib)
+else()
+target_link_options(SAP PRIVATE ${FFMPEG_DEFINITIONS})
+endif()
+# message("${FFMPEG_INCLUDE_DIRS}")
+# message("${FFMPEG_LIBRARIES}")
 
 # MiniAudio
 set(MINIAUDIO_DIR "vendor/miniaudio")
 
 # Includes
-target_include_directories(SAP PRIVATE ${LIBAV_INCLUDE_DIR} ${MINIAUDIO_DIR})
+target_include_directories(SAP PRIVATE ${FFMPEG_INCLUDE_DIRS} ${MINIAUDIO_DIR})
 
 # Links
-target_link_directories(SAP PRIVATE ${LIBAV_LIBRARY_DIR})
-target_link_libraries(SAP PRIVATE fmt::fmt "Bcrypt.lib" "libavutil" "libavcodec" "libavformat" "libswresample" "Strmiids.lib" "Mfplat.lib" "Mfuuid.lib")
+target_link_libraries(SAP PRIVATE fmt::fmt ${FFMPEG_LIBRARIES})
