@@ -132,7 +132,8 @@ int main(int argc, char* argv[]) {
 
     AVAudioFifo* fifo = av_audio_fifo_alloc(AV_SAMPLE_FMT_FLT, stream->codecpar->channels, 1);
 
-    fmt::print(fg(fmt::color::green), "Playing: "); fmt::print("\"{}\"\n", file_path);
+    // Play
+    fmt::print(fg(fmt::color::green), "Playing: "); fmt::print("\"{}\"", file_path); std::flush(std::cout);
     while (av_read_frame(format_ctx, packet) == 0) {
         if (packet->stream_index != stream_index) continue;
 

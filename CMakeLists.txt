@@ -25,6 +25,7 @@ endif()
 
 # Executable
 add_executable(SAP ${SOURCES})
+set_target_properties(SAP PROPERTIES OUTPUT_NAME "sap")
 
 # FMT
 add_subdirectory("vendor/fmt")
@@ -34,10 +35,10 @@ set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_CURRENT_SOURCE_DIR}")
 find_package(FFmpeg COMPONENTS AVUTIL AVCODEC AVFORMAT SWRESAMPLE REQUIRED)
 # Extra definitions
 if (WIN32)
-target_link_libraries(SAP PRIVATE mfplat.lib mfuuid.lib ole32.lib strmiids.lib bcrypt.lib ole32.lib user32.lib)
+    target_link_libraries(SAP PRIVATE mfplat.lib mfuuid.lib)
 else()
-target_link_libraries(SAP PRIVATE ${CMAKE_DL_LIBS} "pthread")
-target_link_options(SAP PRIVATE ${FFMPEG_DEFINITIONS})
+    target_link_libraries(SAP PRIVATE ${CMAKE_DL_LIBS} "pthread")
+    target_link_options(SAP PRIVATE ${FFMPEG_DEFINITIONS})
 endif()
 message("${FFMPEG_INCLUDE_DIRS}")
 message("${FFMPEG_LIBRARIES}")
