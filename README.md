@@ -27,7 +27,7 @@ git clone --recursive https://github.com/Kid0h/SAP
 cd SAP
 mkdir build && cd build
 
-cmake ..
+cmake -DCMAKE_BUILD_TYPE=Release ..
 cmake --build . --config Release
 ```
 If you're using `Windows` or if CMake can't find the ffmpeg libraries on your machine - you'll need to specifiy an include directory and a link file for each ffmpeg component one by one to CMake, for example:
